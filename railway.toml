@@ -1,0 +1,20 @@
+# Railway Configuration for Bytebot Monorepo
+#
+# IMPORTANT: This file is for documentation only.
+# Railway requires manual service configuration for monorepos.
+#
+# For each service, configure in Railway UI:
+#
+# Service: bytebot-agent
+# - Dockerfile Path: packages/bytebot-agent/Dockerfile
+# - Watch Paths: packages/bytebot-agent/**, packages/shared/**
+#
+# Service: bytebot-ui
+# - Dockerfile Path: packages/bytebot-ui/Dockerfile
+# - Watch Paths: packages/bytebot-ui/**, packages/shared/**
+#
+# Service: bytebot-desktop
+# - Dockerfile Path: packages/bytebotd/Dockerfile
+# - Watch Paths: packages/bytebotd/**, packages/shared/**
+#
+# All services use repository root as build context.

@@ -6,6 +6,8 @@ This guide shows how to deploy Bytebot on Railway **directly from this repositor
 
 Bytebot consists of four services that work together:
 
+**Important:** This is a monorepo deployment. Railway requires **manual configuration via the UI** for each service. Do not rely on auto-detection - follow the step-by-step instructions below to configure each service explicitly.
+
 1. **PostgreSQL** - Database for tasks, messages, and summaries
 2. **bytebot-agent** - NestJS backend for task orchestration and LLM integration
 3. **bytebot-ui** - Next.js frontend with Express server for proxying
@@ -26,9 +28,8 @@ Bytebot consists of four services that work together:
 
 1. Go to [railway.app](https://railway.app/) and sign in
 2. Click **"New Project"**
-3. Select **"Deploy from GitHub repo"**
-4. Connect your GitHub account and select this repository
-5. Choose the branch you want to deploy (e.g., `main` or `development`)
+3. Select **"Empty Project"** (we'll manually configure each service)
+4. Name your project (e.g., "Bytebot Production")
 
 ### 2. Add PostgreSQL Database
 
@@ -37,16 +38,44 @@ Bytebot consists of four services that work together:
 3. Railway will automatically provision a PostgreSQL instance
 4. The `DATABASE_URL` environment variable will be available as `${{Postgres.DATABASE_URL}}`
 
-### 3. Deploy bytebot-agent Service
+### 3. Deploy bytebot-desktop Service
 
-1. Click **"New"** → **"GitHub Repo"** (or use existing deployment)
-2. Select **"Add Service"**
-3. Configure the service:
-   - **Name:** `bytebot-agent`
-   - **Root Directory:** (leave empty - Railway will use repository root)
-   - Railway will auto-detect build configuration from `packages/bytebot-agent/railway.toml`
+⚠️ **Deploy this first** - other services depend on it.
 
-4. Add environment variables:
+1. Click **"New"** → **"GitHub Repo"**
+2. Connect your GitHub account and select this repository
+3. Name the service: `bytebot-desktop` (exact name matters for internal DNS)
+
+4. Configure build settings (Settings → Build):
+   - **Builder:** Dockerfile
+   - **Dockerfile Path:** `packages/bytebotd/Dockerfile`
+   - **Watch Paths:** `packages/bytebotd/**,packages/shared/**`
+
+5. Add environment variables (Variables tab):
+   ```
+   DISPLAY=:0
+   ```
+
+6. Configure resources (Settings → Resources):
+   - **Memory:** 2GB minimum (4GB recommended)
+   - **CPU:** 2 vCPU minimum
+   - **Disk:** 2GB minimum
+
+7. Click **"Deploy"**
+
+   **Note:** This service takes 5-10 minutes for initial build due to the Ubuntu desktop environment. Wait for it to be fully active before proceeding.
+
+### 4. Deploy bytebot-agent Service
+
+1. Click **"New"** → **"GitHub Repo"** → Select this repository
+2. Name the service: `bytebot-agent`
+
+3. Configure build settings (Settings → Build):
+   - **Builder:** Dockerfile
+   - **Dockerfile Path:** `packages/bytebot-agent/Dockerfile`
+   - **Watch Paths:** `packages/bytebot-agent/**,packages/shared/**`
+
+4. Add environment variables (Variables tab):
    ```
    DATABASE_URL=${{Postgres.DATABASE_URL}}
    BYTEBOT_DESKTOP_BASE_URL=http://bytebot-desktop.railway.internal:9990
@@ -57,63 +86,40 @@ Bytebot consists of four services that work together:
    ```
    OPENAI_API_KEY=your-openai-api-key-here
    GEMINI_API_KEY=your-gemini-api-key-here
-   PORT=9991
    ```
 
 5. Click **"Deploy"**
-
-### 4. Deploy bytebot-desktop Service
-
-1. Click **"New"** → **"Service"**
-2. Configure the service:
-   - **Name:** `bytebot-desktop` (must match the name used in agent config)
-   - **Root Directory:** (leave empty - Railway will use repository root)
-   - Railway will auto-detect build configuration from `packages/bytebotd/railway.toml`
-
-3. Add environment variables:
-   ```
-   DISPLAY=:0
-   PORT=9990
-   ```
-
-4. Configure resources (click on service → Settings → Resources):
-   - **Memory:** 2GB minimum (4GB recommended)
-   - **CPU:** 2 vCPU minimum
-   - **Disk:** 2GB minimum
-
-5. Click **"Deploy"**
-
-   **Note:** This service takes 5-10 minutes for initial build due to the Ubuntu desktop environment.
 
 ### 5. Deploy bytebot-ui Service
 
-1. Click **"New"** → **"Service"**
-2. Configure the service:
-   - **Name:** `bytebot-ui`
-   - **Root Directory:** (leave empty - Railway will use repository root)
-   - Railway will auto-detect build configuration from `packages/bytebot-ui/railway.toml`
+1. Click **"New"** → **"GitHub Repo"** → Select this repository
+2. Name the service: `bytebot-ui`
 
-3. Add build arguments (Settings → Build):
+3. Configure build settings (Settings → Build):
+   - **Builder:** Dockerfile
+   - **Dockerfile Path:** `packages/bytebot-ui/Dockerfile`
+   - **Watch Paths:** `packages/bytebot-ui/**,packages/shared/**`
+
+4. Add build variables (Settings → Variables → Add Variable → Check "Build Variable"):
    ```
    BYTEBOT_AGENT_BASE_URL=http://bytebot-agent.railway.internal:9991
    BYTEBOT_DESKTOP_VNC_URL=ws://bytebot-desktop.railway.internal:9990/websockify
    ```
 
-4. Add environment variables:
+5. Add runtime environment variables (Variables tab):
    ```
    BYTEBOT_AGENT_BASE_URL=http://bytebot-agent.railway.internal:9991
    BYTEBOT_DESKTOP_VNC_URL=ws://bytebot-desktop.railway.internal:9990/websockify
    NEXT_PUBLIC_API_URL=http://bytebot-agent.railway.internal:9991
    NODE_ENV=production
    HOSTNAME=0.0.0.0
-   PORT=9992
    ```
 
-5. Enable public networking (Settings → Networking):
+6. Enable public networking (Settings → Networking):
    - Toggle **"Public Networking"** ON
    - Railway will assign a public URL (e.g., `https://bytebot-ui-production.up.railway.app`)
 
-6. Click **"Deploy"**
+7. Click **"Deploy"**
 
 ### 6. Verify Deployment
 
