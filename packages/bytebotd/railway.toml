@@ -1,7 +1,6 @@
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "packages/bytebotd/Dockerfile"
-dockerContext = "packages"
 
 [deploy]
 # Bytebotd uses supervisord to manage multiple processes (X11, VNC, noVNC, desktop)

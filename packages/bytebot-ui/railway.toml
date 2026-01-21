@@ -1,7 +1,6 @@
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "packages/bytebot-ui/Dockerfile"
-dockerContext = "packages"
 
 # Pass build args for internal service URLs
 [build.buildArgs]

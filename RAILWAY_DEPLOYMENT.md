@@ -43,9 +43,8 @@ Bytebot consists of four services that work together:
 2. Select **"Add Service"**
 3. Configure the service:
    - **Name:** `bytebot-agent`
-   - **Root Directory:** `packages/bytebot-agent`
-   - **Build Method:** Dockerfile
-   - **Dockerfile Path:** `packages/bytebot-agent/Dockerfile`
+   - **Root Directory:** (leave empty - Railway will use repository root)
+   - Railway will auto-detect build configuration from `packages/bytebot-agent/railway.toml`
 
 4. Add environment variables:
    ```
@@ -68,9 +67,8 @@ Bytebot consists of four services that work together:
 1. Click **"New"** → **"Service"**
 2. Configure the service:
    - **Name:** `bytebot-desktop` (must match the name used in agent config)
-   - **Root Directory:** `packages/bytebotd`
-   - **Build Method:** Dockerfile
-   - **Dockerfile Path:** `packages/bytebotd/Dockerfile`
+   - **Root Directory:** (leave empty - Railway will use repository root)
+   - Railway will auto-detect build configuration from `packages/bytebotd/railway.toml`
 
 3. Add environment variables:
    ```
@@ -92,9 +90,8 @@ Bytebot consists of four services that work together:
 1. Click **"New"** → **"Service"**
 2. Configure the service:
    - **Name:** `bytebot-ui`
-   - **Root Directory:** `packages/bytebot-ui`
-   - **Build Method:** Dockerfile
-   - **Dockerfile Path:** `packages/bytebot-ui/Dockerfile`
+   - **Root Directory:** (leave empty - Railway will use repository root)
+   - Railway will auto-detect build configuration from `packages/bytebot-ui/railway.toml`
 
 3. Add build arguments (Settings → Build):
    ```

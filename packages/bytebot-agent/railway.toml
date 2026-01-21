@@ -1,7 +1,6 @@
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "packages/bytebot-agent/Dockerfile"
-dockerContext = "packages"
 
 [deploy]
 startCommand = "npm run start:prod"

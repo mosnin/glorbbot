@@ -25,8 +25,8 @@ Deploy Bytebot to Railway from this repository in under 15 minutes.
 **Name:** `bytebot-desktop` (exact name matters!)
 
 **Settings:**
-- Root Directory: `packages/bytebotd`
-- Dockerfile Path: `packages/bytebotd/Dockerfile`
+- Root Directory: (leave empty - use repository root)
+- Railway will auto-detect configuration from `packages/bytebotd/railway.toml`
 
 **Environment Variables:**
 ```bash
@@ -44,8 +44,8 @@ DISPLAY=:0
 **Name:** `bytebot-agent`
 
 **Settings:**
-- Root Directory: `packages/bytebot-agent`
-- Dockerfile Path: `packages/bytebot-agent/Dockerfile`
+- Root Directory: (leave empty - use repository root)
+- Railway will auto-detect configuration from `packages/bytebot-agent/railway.toml`
 
 **Environment Variables** (Required):
 ```bash
@@ -67,8 +67,8 @@ GEMINI_API_KEY=xxxxx
 **Name:** `bytebot-ui`
 
 **Settings:**
-- Root Directory: `packages/bytebot-ui`
-- Dockerfile Path: `packages/bytebot-ui/Dockerfile`
+- Root Directory: (leave empty - use repository root)
+- Railway will auto-detect configuration from `packages/bytebot-ui/railway.toml`
 
 **Build Args** (Settings → Variables → Build):
 ```bash
