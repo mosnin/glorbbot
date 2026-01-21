@@ -1,0 +1,38 @@
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "packages/bytebot-agent/Dockerfile"
+dockerContext = "packages"
+
+[deploy]
+startCommand = "npm run start:prod"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+# Service runs on internal port 9991
+[deploy.healthcheck]
+path = "/"
+timeout = 300
+interval = 60
+
+[deploy.environmentVariables]
+# Database connection string - automatically set by Railway when PostgreSQL is added
+# Format: postgresql://user:password@host:port/database
+# DATABASE_URL = "${POSTGRESQL_URL}"
+
+# Desktop service URL - set to Railway's internal networking URL
+# Default assumes service is named "bytebot-desktop" in Railway
+# BYTEBOT_DESKTOP_BASE_URL = "http://bytebot-desktop.railway.internal:9990"
+
+# AI Provider API Keys - at least one required
+# ANTHROPIC_API_KEY = ""
+# OPENAI_API_KEY = ""
+# GEMINI_API_KEY = ""
+
+# Optional: LLM Proxy URL if using bytebot-llm-proxy service
+# BYTEBOT_LLM_PROXY_URL = "http://bytebot-llm-proxy.railway.internal:4000"
+
+# Optional: Analytics endpoint
+# BYTEBOT_ANALYTICS_ENDPOINT = ""
+
+# Port configuration (defaults to 9991 if not set)
+# PORT = "9991"

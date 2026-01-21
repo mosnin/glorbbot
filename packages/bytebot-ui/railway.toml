@@ -1,0 +1,44 @@
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "packages/bytebot-ui/Dockerfile"
+dockerContext = "packages"
+
+# Pass build args for internal service URLs
+[build.buildArgs]
+# These are used during the Next.js build process
+# Railway's internal networking format: <service-name>.railway.internal:<port>
+BYTEBOT_AGENT_BASE_URL = "http://bytebot-agent.railway.internal:9991"
+BYTEBOT_DESKTOP_VNC_URL = "ws://bytebot-desktop.railway.internal:9990/websockify"
+
+[deploy]
+startCommand = "npm run start"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+# This service should be publicly accessible
+[deploy.healthcheck]
+path = "/"
+timeout = 300
+interval = 60
+
+[deploy.environmentVariables]
+# Runtime environment variables for the Express server and Next.js app
+# These should match the build args above for consistency
+
+# Backend service URLs - Railway internal networking
+# BYTEBOT_AGENT_BASE_URL = "http://bytebot-agent.railway.internal:9991"
+# BYTEBOT_DESKTOP_VNC_URL = "ws://bytebot-desktop.railway.internal:9990/websockify"
+
+# Next.js public environment variable (exposed to browser)
+# This should point to the agent service via internal networking
+# The UI will proxy requests from the browser through its Express server
+# NEXT_PUBLIC_API_URL = "http://bytebot-agent.railway.internal:9991"
+
+# Node environment
+NODE_ENV = "production"
+
+# Port configuration (defaults to 9992 if not set)
+# PORT = "9992"
+
+# Hostname
+# HOSTNAME = "0.0.0.0"
