@@ -48,7 +48,7 @@ Bytebot consists of four services that work together:
 
 4. Configure build settings (Settings → Build):
    - **Builder:** Dockerfile
-   - **Dockerfile Path:** `packages/bytebotd/Dockerfile`
+   - **Dockerfile Path:** `Dockerfile.desktop`
    - **Watch Paths:** `packages/bytebotd/**,packages/shared/**`
 
 5. Add environment variables (Variables tab):
@@ -72,7 +72,7 @@ Bytebot consists of four services that work together:
 
 3. Configure build settings (Settings → Build):
    - **Builder:** Dockerfile
-   - **Dockerfile Path:** `packages/bytebot-agent/Dockerfile`
+   - **Dockerfile Path:** `Dockerfile.agent`
    - **Watch Paths:** `packages/bytebot-agent/**,packages/shared/**`
 
 4. Add environment variables (Variables tab):
@@ -97,7 +97,7 @@ Bytebot consists of four services that work together:
 
 3. Configure build settings (Settings → Build):
    - **Builder:** Dockerfile
-   - **Dockerfile Path:** `packages/bytebot-ui/Dockerfile`
+   - **Dockerfile Path:** `Dockerfile.ui`
    - **Watch Paths:** `packages/bytebot-ui/**,packages/shared/**`
 
 4. Add build variables (Settings → Variables → Add Variable → Check "Build Variable"):

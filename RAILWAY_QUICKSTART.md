@@ -27,7 +27,7 @@ Deploy Bytebot to Railway from this repository in under 15 minutes.
 
 **Configure Build (Settings → Build):**
 - **Builder:** Dockerfile
-- **Dockerfile Path:** `packages/bytebotd/Dockerfile`
+- **Dockerfile Path:** `Dockerfile.desktop`
 - **Watch Paths:** `packages/bytebotd/**,packages/shared/**`
 
 **Environment Variables (Variables tab):**
@@ -48,7 +48,7 @@ DISPLAY=:0
 
 **Configure Build (Settings → Build):**
 - **Builder:** Dockerfile
-- **Dockerfile Path:** `packages/bytebot-agent/Dockerfile`
+- **Dockerfile Path:** `Dockerfile.agent`
 - **Watch Paths:** `packages/bytebot-agent/**,packages/shared/**`
 
 **Environment Variables (Variables tab):**
@@ -73,7 +73,7 @@ GEMINI_API_KEY=xxxxx
 
 **Configure Build (Settings → Build):**
 - **Builder:** Dockerfile
-- **Dockerfile Path:** `packages/bytebot-ui/Dockerfile`
+- **Dockerfile Path:** `Dockerfile.ui`
 - **Watch Paths:** `packages/bytebot-ui/**,packages/shared/**`
 
 **Build Variables (Settings → Variables → Add Variable → Make Build Variable):**
